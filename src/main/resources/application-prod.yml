@@ -1,0 +1,3 @@
+#After testing production configuration
+server:
+   port: 8080
