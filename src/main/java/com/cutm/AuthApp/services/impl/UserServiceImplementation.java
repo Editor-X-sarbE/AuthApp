@@ -36,6 +36,7 @@ public class UserServiceImplementation implements UserService {
         user.setProvider(userDto.getProvider() != null ? userDto.getProvider() : Provider.Local);
         // role assing here to User... for authorization
         User savedUser = userRepository.save(user);
+        // model mapper used for Converting entites in to DTO
         return modelMapper.map(savedUser, UserDto.class);
     }
 
