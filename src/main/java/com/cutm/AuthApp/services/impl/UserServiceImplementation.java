@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 import com.cutm.AuthApp.dto.UserDto;
 import com.cutm.AuthApp.entity.Provider;
 import com.cutm.AuthApp.entity.User;
+import com.cutm.AuthApp.exceptions.ResourceNotFoundException;
 import com.cutm.AuthApp.repositories.UserRepository;
 import com.cutm.AuthApp.services.UserService;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -20,6 +22,7 @@ public class UserServiceImplementation implements UserService {
     private final ModelMapper modelMapper;
 
     @Override
+    @Transactional
     public UserDto createUser(UserDto userDto) {
 
         // checking the user email part is fill or blank
@@ -42,7 +45,10 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public UserDto getUserByEmail(String email) {
-        return null;
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "User not found with given email id"));
+        return modelMapper.map(user, UserDto.class);
     }
 
     @Override
@@ -64,5 +70,11 @@ public class UserServiceImplementation implements UserService {
     public Iterable<UserDto> getAllUsers() {
         return userRepository.findAll().stream().map(user -> modelMapper.map(user, UserDto.class)).toList();
     }
+
+    // private static class ResourceNotFoundException extends RuntimeException {
+    // public ResourceNotFoundException(String message) {
+    // super(message);
+    // }
+    // }
 
 }
