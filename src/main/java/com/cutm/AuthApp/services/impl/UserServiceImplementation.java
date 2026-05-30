@@ -62,7 +62,7 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public Iterable<UserDto> getAllUsers() {
-        return null;
+        return userRepository.findAll().stream().map(user -> modelMapper.map(user, UserDto.class)).toList();
     }
 
 }
