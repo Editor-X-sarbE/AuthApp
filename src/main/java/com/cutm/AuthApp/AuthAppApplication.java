@@ -9,5 +9,6 @@ public class AuthAppApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AuthAppApplication.class, args);
 		System.out.println("Authentication Project Works .");
+		// Maintaining Streak
 	}
 }
