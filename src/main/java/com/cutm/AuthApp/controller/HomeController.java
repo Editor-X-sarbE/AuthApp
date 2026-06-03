@@ -9,5 +9,6 @@ public class HomeController {
     @GetMapping("/")
     public String home() {
         return "Application Running Successfully Now can push in to github .";
+        // home controller used for Avoid Security issue
     }
 }
