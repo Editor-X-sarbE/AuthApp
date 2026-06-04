@@ -63,5 +63,6 @@ public class UserController {
     public ResponseEntity<UserDto> getUserById(@PathVariable("userId") String userId) {
         return ResponseEntity.ok(userService.getuserById(userId));
     }
+    //all perfect
 
 }
