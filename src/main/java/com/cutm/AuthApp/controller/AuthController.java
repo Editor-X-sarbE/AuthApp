@@ -25,5 +25,6 @@ public class AuthController {
     public ResponseEntity<UserDto> registerUser(@RequestBody UserDto userDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.registerUser(userDto));
     }
+    //just updating the files mainttain .
 
 }
