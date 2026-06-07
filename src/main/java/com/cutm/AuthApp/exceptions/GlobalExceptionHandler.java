@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.cutm.AuthApp.dto.ErrorResponse;
 
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler { //this class used for handle any kind of exception
 
         // resource not found handler method
         @ExceptionHandler(ResourceNotFoundException.class)
