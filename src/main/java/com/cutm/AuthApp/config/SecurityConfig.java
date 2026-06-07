@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.userdetails.User.UserBuilder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -18,4 +19,7 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+    // UserBuilder user1 =
+    // userBuilder.username("sarbe").password("xcv").roles("Admin").build();
 }
