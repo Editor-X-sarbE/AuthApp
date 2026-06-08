@@ -1,5 +1,6 @@
 package com.cutm.AuthApp.services.impl;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.cutm.AuthApp.dto.UserDto;
@@ -13,7 +14,9 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class AuthServiceImplementation implements AuthService {
+
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDto registerUser(UserDto userDto) {
@@ -21,7 +24,7 @@ public class AuthServiceImplementation implements AuthService {
         // verify email
         // verify password
         // default roles
-        UserDto userDto1 = userService.createUser(userDto);
-        return userDto1;
+        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        return userService.createUser(userDto);
     }
 }

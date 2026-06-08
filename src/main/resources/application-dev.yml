@@ -19,6 +19,10 @@ spring:
            format_sql: true
       show-sql: true
          
+logging:
+   level:
+      org.springframework.security: DEBUG
 
+      
 #jpa and hibenate configuration
 #testing the another branch sarbeshbranch
