@@ -23,6 +23,16 @@ logging:
    level:
       org.springframework.security: DEBUG
 
+security:
+   jwt:
+   secret: ${JWT_SECRET:secret}
+   issuer: ${JWT_ISSUER:api.substrings.com}
+   access-ttl-seconds: ${JWT_ACCESS_TTL_SECONDS:3600}
+   refresh-ttl-seconds: ${JWT_REFRESH_TTL_SECONDS:86400}
+   refresh-token-cookie-name: ${JWT_REFRESH_TOKEN_COOKIE_NAME:refreshToken}
+   coockie-secure: ${JWT_COOKIE_SECURE:true}
+   cookie-http-only: ${JWT_COOKIE_HTTP_ONLY:true}
+   cookie-same-site: ${JWT_COOKIE_SAME_SITE:lax}
       
 #jpa and hibenate configuration
 #testing the another branch sarbeshbranch

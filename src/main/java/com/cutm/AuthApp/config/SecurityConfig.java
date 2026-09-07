@@ -45,4 +45,4 @@ public class SecurityConfig {
     }
 
 }
-//- Auhentication works but dont know which password is to use .
+// - Auhentication works username-kinley@gmail.com , psw - abc
