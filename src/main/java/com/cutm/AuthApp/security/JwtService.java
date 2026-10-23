@@ -1,12 +1,25 @@
 package com.cutm.AuthApp.security;
 
 import java.nio.charset.StandardCharsets;
+import java.sql.Date;
+import java.time.Instant;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import javax.crypto.SecretKey;
 
 import org.springframework.stereotype.Service;
 
+import com.cutm.AuthApp.entity.Role;
+import com.cutm.AuthApp.entity.User;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 import org.springframework.beans.factory.annotation.Value;
 
@@ -30,4 +43,57 @@ public class JwtService {
         this.refreshTtlSeconds = refreshTtlSeconds;
         this.issuer = issuer;
     }
+
+    // generate Access Token
+    public String generateAccessToken(User user) {
+        Instant now = Instant.now();
+        List<String> roles = user.getRoles() == null ? List.of() : user.getRoles().stream().map(Role::getName).toList();
+        return Jwts.builder()
+                .id(UUID.randomUUID().toString())
+                .subject(user.getId().toString())
+                .issuer(issuer)
+                .issuedAt(Date.from(now))
+                .expiration(Date.from(now.plusSeconds(accessTtlSeconds)))
+                .claims(Map.of(
+                        "email", user.getEmail(),
+                        "roles", roles,
+                        "typ", "access"))
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    // generate refresh token
+    // Generate a refresh token with a longer expiration time
+    public String generateRefreshToken(User user, String jti) {
+        Instant now = Instant.now();
+        return Jwts.builder()
+                .id(jti)
+                .subject(user.getId().toString())
+                .issuer(issuer)
+                .issuedAt(Date.from(now))
+                .expiration(Date.from(now.plusSeconds(refreshTtlSeconds)))
+                .claims(Map.of(
+                        "typ", "refresh"))
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+    }
+
+    // parse the token
+    public Jws<Claims> parse(String token) {
+         try {
+            return Jwts.parser().verifyWith(key).build().parseSignedClaims(token);
+            }
+            catch(JwtException e){
+                throw e;
+            }
+        }
+
+        //
+        public boolean isAccessToken(String token){
+            Claims claims = parse(token).getPayload();
+            return "access".equals(claims.get("typ", String.class));
+        }
 }
+
+
+//complete the video no 11
